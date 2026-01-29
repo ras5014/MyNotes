@@ -478,7 +478,8 @@ shared: {
 **File:** `host/src/registerMicroFrontends.js`
 
 ```javascript
-import * as singleSpa from 'single-spa';
+import { registerApplication } from "single-spa";
+import { store } from "./app/store";
 
 /**
  * Register all micro-frontend applications
@@ -486,30 +487,31 @@ import * as singleSpa from 'single-spa';
  */
 
 // Register Header - Always visible
-singleSpa.registerApplication({
-  name: '@app/header',
-  app: () => System.import('@app/header/singleSpaEntry'),
-  activeWhen: '/',  // Always active on root path
-  props: {},
+registerApplication({
+  name: "@app/header",
+  app: () => import("header/singleSpaEntry"), // Here header is name defined in package.json of header MFE
+  activeWhen: () => true, // Always active
+  customProps: {},
 });
 
-// Register Counter - Show only on /counter
-singleSpa.registerApplication({
-  name: '@app/counter',
-  app: () => System.import('@app/counter/singleSpaEntry'),
-  activeWhen: '/counter',
-  props: {},
+// Register Products - Active on /products path
+registerApplication({
+  name: "@app/products",
+  app: () => import("products/singleSpaEntry"),
+  activeWhen: (location) => location.pathname.startsWith("/products"),
+  customProps: {},
 });
 
-// Register Products - Show only on /products
-singleSpa.registerApplication({
-  name: '@app/products',
-  app: () => System.import('@app/products/singleSpaEntry'),
-  activeWhen: '/products',
-  props: {},
+// Register Counter - Active on /counter path
+registerApplication({
+  name: "@app/counter",
+  app: () => import("counter/singleSpaEntry"),
+  activeWhen: (location) => location.pathname.startsWith("/counter"),
+  customProps: { store },
 });
 
-console.log('✅ Micro-frontends registered with single-spa');
+console.log("✅ Micro-frontends registered with single-spa");
+
 ```
 
 ---
