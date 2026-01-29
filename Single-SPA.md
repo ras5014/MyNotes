@@ -325,19 +325,7 @@ body {
   </head>
   <body>
     <div id="root"></div>
-    
-    <!-- Import Map for Module Federation -->
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://cdn.jsdelivr.net/npm/react@18.2.0/+esm",
-        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/+esm",
-        "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@6.1.0/+esm"
-      }
-    }
-    </script>
-    
-    <script type="module" src="./bootstrap.js"></script>
+    <!-- Webpack Module Federation will handle all script loading -->
   </body>
 </html>
 ```
